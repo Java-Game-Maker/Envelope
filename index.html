@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alfred's Envelope</title>
-    <meta name="description" content="An animated envelope that reveals a heart graph and a playful question." />
+    <title>Envelope</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="bg" aria-hidden="true"></div>
 
-    <main class="stage" aria-label="Alfred's Envelope Animation">
-      <section class="scene" aria-live="polite">
-        <div id="envelopeWrap" class="envelope-wrap is-falling" aria-label="Envelope">
+    <main class="stage" aria-label="Envelope Animation">
+      <section class="scene">
+        <div id="envelopeWrap" class="envelope-wrap is-falling">
           <div class="shadow" aria-hidden="true"></div>
+          
           <div id="envelope" class="envelope" aria-hidden="true">
             <div class="env-back"></div>
             <div class="env-letter-slot"></div>
@@ -21,36 +21,25 @@
             <div class="env-front"></div>
           </div>
 
-          <div id="paper" class="paper is-hidden" aria-label="Paper">
+          <div id="paper" class="paper is-hidden">
             <div class="paper-inner" id="paperInner">
-              <!-- FRONT -->
-              <section class="paper-face paper-front" aria-label="Front of paper">
-                <div class="paper-top">
-                  <div class="paper-title">Heart graph (drawn from a parametric function)</div>
-                  <div id="fnText" class="fn-text" aria-label="Function shown above the graph"></div>
-                </div>
-                <div class="graph-wrap" aria-label="Graph">
-                  <canvas id="graph" width="920" height="520"></canvas>
-                  <div class="graph-caption">2D plot — line is animated as it draws</div>
-                </div>
-                <button id="nextBtn" class="next-btn" type="button">Next</button>
-              </section>
+              <section class="paper-face">
+                <div class="letter-content">
+                  <h1>Alma,</h1>
+                  <p>
+                    Du är den mest omtenksamma och snällaste person jag har träffat. Du är så fantastisk. Man blir gång på gång
+										överaskad hur jävla omtenksam och så fantastisk du är. Du är så himla rolig och den igenom tidernas bästa giffskapare.
+										Jag gillar verkligen att vara med dig, och vill det mera.
+										När jag läste ditt brev när jag kom hem så ångrade jag att jag inte läste det tidigare. Eller att jag inte
+										hade skrivit det själv. Men better late then never?
 
-              <!-- BACK -->
-              <section class="paper-face paper-back" aria-label="Back of paper">
-                <div class="back-top">
-                  <div class="back-title">I want to:</div>
-                  <div class="big-letters" aria-label="K I _ _">
-                    <span>K</span><span>I</span><span>_</span><span>_</span>
-                  </div>
-                </div>
-
-                <div class="answers">
-                  <div class="answers-title">Alfreds answers:</div>
-                  <div class="choices" aria-label="Choices">
-                    <button id="choiceLL" class="choice choice-ll" type="button">LL</button>
-                    <button id="choiceSS" class="choice choice-ss" type="button">SS</button>
-                  </div>
+                  </p>
+                  <p>
+										Alma, Vill du bli min valentine? 
+									</p>
+									<p>
+																				Säg Ja!
+									</p>
                 </div>
               </section>
             </div>
@@ -59,25 +48,7 @@
       </section>
     </main>
 
-    <div id="modal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-backdrop" data-close="true"></div>
-      <div class="modal-card" role="document">
-        <div id="modalTitle" class="modal-title">Incorrect</div>
-        <div id="modalBody" class="modal-body">Incorrect</div>
-        <div class="modal-actions">
-          <button id="modalOk" class="modal-ok" type="button">OK</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="valentine" class="valentine is-hidden" aria-label="Valentine note">
-      <div id="hearts" class="hearts" aria-hidden="true"></div>
-			<img alt="gauss" src="/gauss.png"/>
-		</div>
-      </div>
-    </div>
-
     <script src="./script.js" defer></script>
   </body>
 </html>
-
+#+end_
