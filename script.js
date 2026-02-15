@@ -16,6 +16,7 @@ const modalOk = $("#modalOk");
 const valentine = $("#valentine");
 const heartsRoot = $("#hearts");
 let llCleanup = null;
+let heartDone = false;
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -196,11 +197,62 @@ function drawHeartAnimated(canvas, onDone) {
       }
       ctx.stroke();
       ctx.restore();
+      heartDone = true;
       onDone?.();
     }
   }
 
   requestAnimationFrame(frame);
+}
+
+function drawHeartFull(canvas) {
+  if (!canvas) return;
+  const ctx = setupCanvasHiDPI(canvas);
+  const w = canvas.clientWidth || 920;
+  const h = canvas.clientHeight || 520;
+
+  const pts = computeImplicitHeartPoints(1200);
+  const padding = 34;
+  let minX = Infinity,
+    maxX = -Infinity,
+    minY = Infinity,
+    maxY = -Infinity;
+  for (const p of pts) {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.y > maxY) maxY = p.y;
+  }
+  const spanX = Math.max(1e-6, maxX - minX);
+  const spanY = Math.max(1e-6, maxY - minY);
+  const scale = Math.min((w - padding * 2) / spanX, (h - padding * 2) / spanY);
+  const ox = w / 2 - ((minX + maxX) / 2) * scale;
+  const oy = h / 2 + ((minY + maxY) / 2) * scale;
+
+  const toCanvas = (p) => ({ cx: ox + p.x * scale, cy: oy - p.y * scale });
+
+  const gradient = ctx.createLinearGradient(0, 0, w, h);
+  gradient.addColorStop(0, "#ff4d8d");
+  gradient.addColorStop(0.6, "#7c5cff");
+  gradient.addColorStop(1, "#ff7ab0");
+
+  drawAxes(ctx, w, h);
+  ctx.save();
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.strokeStyle = gradient;
+  ctx.shadowColor = "rgba(124,92,255,0.30)";
+  ctx.shadowBlur = 10;
+  ctx.beginPath();
+  const pStart = toCanvas(pts[0]);
+  ctx.moveTo(pStart.cx, pStart.cy);
+  for (let i = 1; i < pts.length; i++) {
+    const pi = toCanvas(pts[i]);
+    ctx.lineTo(pi.cx, pi.cy);
+  }
+  ctx.stroke();
+  ctx.restore();
 }
 
 function initLLRunAway() {
@@ -411,5 +463,15 @@ function wireUI() {
 window.addEventListener("load", () => {
   wireUI();
   runSequence();
+});
+
+// Keep the graph crisp when the viewport changes (mobile rotation, etc.).
+let resizeRaf = 0;
+window.addEventListener("resize", () => {
+  if (!heartDone) return;
+  if (document.body.classList.contains("is-valentine")) return;
+  if (!graph?.isConnected) return;
+  cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(() => drawHeartFull(graph));
 });
 

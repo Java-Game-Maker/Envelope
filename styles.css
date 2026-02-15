@@ -279,6 +279,8 @@ canvas#graph {
   display: block;
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(12, 16, 48, 0.04), rgba(12, 16, 48, 0.0));
+  aspect-ratio: 920 / 520;
+  max-height: 48vh;
 }
 
 .graph-caption {
@@ -474,6 +476,9 @@ canvas#graph {
   opacity: 0;
   transition: transform 700ms cubic-bezier(.2,.85,.2,1), opacity 700ms ease;
   pointer-events: auto;
+  max-height: 86vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .valentine.is-on .note {
   transform: translateY(0) scale(1);
@@ -500,6 +505,32 @@ canvas#graph {
   letter-spacing: 0.2px;
   color: rgba(43, 16, 32, 0.82);
   text-align: right;
+}
+
+/* Mobile layout tweaks */
+@media (max-width: 520px) {
+  .stage { padding-top: 14px; }
+  .scene { height: 94vh; }
+
+  .envelope { top: 26px; }
+
+  .paper-face { padding: 18px 16px 16px; }
+  .paper-title { font-size: 16px; }
+  .fn-text { font-size: 12px; padding: 8px 10px; }
+  .graph-wrap { padding: 10px; }
+  .graph-caption { font-size: 11px; }
+
+  .next-btn { right: 14px; bottom: 14px; padding: 10px 12px; }
+
+  .paper-back { padding: 26px 18px 18px; }
+  .back-title { font-size: 22px; }
+  .big-letters { letter-spacing: 0.08em; }
+
+  .choices { flex-direction: column; width: 100%; }
+  .choice { width: 100%; max-width: 320px; }
+
+  .note-inner { padding: 18px 16px 16px; }
+  .note-body { line-height: 1.22; }
 }
 
 
