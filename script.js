@@ -434,9 +434,14 @@ async function runSequence() {
   envelopeWrap.classList.add("is-paper-out");
   await sleep(420);
 
-  // Draw heart graph; then reveal Next button
-  drawHeartAnimated(graph, () => {
-    nextBtn.classList.add("is-visible");
+  // Draw heart graph; then automatically flip
+  drawHeartAnimated(graph, async () => {
+    // Pause briefly to show the completed heart
+    await sleep(1200);
+    
+    // Flip paper and init logic automatically
+    paperInner.classList.add("is-flipped");
+    initLLRunAway();
   });
 }
 
