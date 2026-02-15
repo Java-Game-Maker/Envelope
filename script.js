@@ -454,8 +454,7 @@ function setupEasterEggs() {
     }
 
     // 1. GAUSS
-			if (keyBuffer.endsWith("
-gauss")) {
+    if (keyBuffer.endsWith("gauss")) {
       openModal("∑ 1..100 = 5050. I am happy.", "Carl Friedrich Gauss");
       keyBuffer = "";
     }
