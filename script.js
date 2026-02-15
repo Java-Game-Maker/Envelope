@@ -17,6 +17,7 @@ const valentine = $("#valentine");
 const heartsRoot = $("#hearts");
 let llCleanup = null;
 let heartDone = false;
+let keyBuffer = "";
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -439,6 +440,60 @@ async function runSequence() {
   });
 }
 
+function setupEasterEggs() {
+  document.addEventListener("keydown", (e) => {
+    // Ignore if modal is open (except Escape which is handled elsewhere)
+    if (!modal.classList.contains("is-hidden") && e.key !== "Escape") return;
+
+    // Filter valid chars for typing
+    if (e.key.length === 1) {
+      keyBuffer += e.key.toLowerCase();
+      if (keyBuffer.length > 60) keyBuffer = keyBuffer.slice(-60);
+    } else if (e.key === "Backspace") {
+      keyBuffer = keyBuffer.slice(0, -1);
+    }
+
+    // 1. GAUSS
+			if (keyBuffer.endsWith("
+gauss")) {
+      openModal("∑ 1..100 = 5050. I am happy.", "Carl Friedrich Gauss");
+      keyBuffer = "";
+    }
+
+    // 2. EMACS
+    if (keyBuffer.endsWith("emacs") || keyBuffer.endsWith("i like emacs")) {
+      openModal("M-x butterfly", "Emacs Mode");
+      keyBuffer = "";
+    }
+
+    // 3. BULGARIAN
+    if (
+      keyBuffer.endsWith("pratar jag bulgariska") ||
+      keyBuffer.endsWith("pratarjagbulgariska")
+    ) {
+      openModal("Да, малко! (Yes, a little!)", "Български");
+      keyBuffer = "";
+    }
+
+    // 4. DEFTONES
+    if (keyBuffer.endsWith("deftones")) {
+      openModal("I watched a change in you. It's like you never had wings.", "Deftones");
+      keyBuffer = "";
+    }
+
+    // 5. SÄG JA (Triggers success)
+    if (
+      keyBuffer.endsWith("säg ja") ||
+      keyBuffer.endsWith("sag ja") ||
+      keyBuffer.endsWith("sagja") ||
+      keyBuffer.endsWith("sägja")
+    ) {
+      enterValentineMode();
+      keyBuffer = "";
+    }
+  });
+}
+
 function wireUI() {
   nextBtn.addEventListener("click", () => {
     paperInner.classList.add("is-flipped");
@@ -458,6 +513,8 @@ function wireUI() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.classList.contains("is-hidden")) closeModal();
   });
+
+  setupEasterEggs();
 }
 
 window.addEventListener("load", () => {
@@ -474,4 +531,3 @@ window.addEventListener("resize", () => {
   cancelAnimationFrame(resizeRaf);
   resizeRaf = requestAnimationFrame(() => drawHeartFull(graph));
 });
-
