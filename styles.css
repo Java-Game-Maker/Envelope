@@ -442,6 +442,17 @@ canvas#graph {
   pointer-events: auto;
 }
 
+/* ADDED: constrain the image size and add styling */
+.valentine img {
+  max-width: min(500px, 85vw);
+  max-height: min(600px, 75vh);
+  width: auto;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  object-fit: contain;
+}
+
 .hearts {
   position: absolute;
   inset: 0;
